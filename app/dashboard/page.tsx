@@ -3,13 +3,24 @@ import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { DashboardContent } from "@/components/dashboard/dashboard-content"
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton"
 
-export default function DashboardPage() {
+function Dashboard(){
   return (
     <div className="container py-6 space-y-6">
       <DashboardHeader />
-      <Suspense fallback={<DashboardSkeleton />}>
-        <DashboardContent />
-      </Suspense>
+      
+      <DashboardContent />
+      
     </div>
   )
 }
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <Dashboard/>
+    </Suspense>
+  );
+}
+
+
+
