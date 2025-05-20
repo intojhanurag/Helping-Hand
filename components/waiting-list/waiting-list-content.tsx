@@ -3,13 +3,18 @@ import { useSearchParams } from "next/navigation"
 import { TweetCard } from "@/components/shared/tweet-card"
 import { useTweetStore } from "@/lib/tweet-store"
 import { motion } from "framer-motion"
+import { useEffect } from "react"
 
 export function WaitingListContent() {
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get("category")
-  const waitingList = useTweetStore((state) => state.waitingList)
+ 
 
   // Filter tweets by category
+  useEffect(() => {
+  useTweetStore.getState().fetchTweets()
+}, [])
+ const waitingList = useTweetStore((state) => state.waitingList)
   const filteredTweets = waitingList
     .filter((tweet) => !categoryParam || tweet.category.toLowerCase() === categoryParam.toLowerCase())
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())

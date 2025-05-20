@@ -4,10 +4,14 @@ import { useSearchParams } from "next/navigation"
 import { TweetCard } from "@/components/shared/tweet-card"
 import { useTweetStore } from "@/lib/tweet-store"
 import { motion } from "framer-motion"
+import { useEffect } from "react"
 
 export function DashboardContent() {
   const searchParams = useSearchParams()
   const categoryParam = searchParams.get("category")
+  useEffect(() => {
+  useTweetStore.getState().fetchTweets()
+}, [])
   const dashboard = useTweetStore((state) => state.dashboard)
 
   // Filter tweets by category

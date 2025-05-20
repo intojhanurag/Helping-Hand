@@ -1,67 +1,90 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 import type { Tweet } from "./types"
-import { mockTweets } from "./mock-data"
 
 interface TweetState {
   waitingList: Tweet[]
   dashboard: Tweet[]
+  fetchTweets: () => void
   addTweet: (tweet: Tweet) => void
   moveToDashboard: (id: string) => void
   updateTweet: (updatedTweet: Tweet, inDashboard: boolean) => void
   removeTweet: (id: string, inDashboard: boolean) => void
 }
 
-export const useTweetStore = create<TweetState>()(
-  persist(
-    (set) => ({
-      waitingList: mockTweets.filter((tweet) => tweet.upvotes < 10),
-      dashboard: mockTweets.filter((tweet) => tweet.upvotes >= 10),
+export const useTweetStore = create<TweetState>((set, get) => ({
+  waitingList: [],
+  dashboard: [],
 
-      addTweet: (tweet) =>
-        set((state) => ({
-          waitingList: [tweet, ...state.waitingList],
-        })),
+  fetchTweets: async () => {
+    const [waitingRes, dashboardRes] = await Promise.all([
+      fetch("http://localhost:5000/tweets/waiting"),
+      fetch("http://localhost:5000/tweets/dashboard"),
+    ])
+    const waitingList = await waitingRes.json()
+    const dashboard = await dashboardRes.json()
+    set({ waitingList, dashboard })
+  },
 
-      moveToDashboard: (id) =>
-        set((state) => {
-          const tweetToMove = state.waitingList.find((tweet) => tweet.id === id)
-          if (!tweetToMove) return state
+  addTweet: async (tweet) => {
+    const res = await fetch("http://localhost:5000/tweets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(tweet),
+    })
+    const newTweet = await res.json()
+    set((state) => ({
+      waitingList: [newTweet, ...state.waitingList],
+    }))
+  },
 
-          return {
-            waitingList: state.waitingList.filter((tweet) => tweet.id !== id),
-            dashboard: [tweetToMove, ...state.dashboard],
-          }
-        }),
+  moveToDashboard: async (id) => {
+    const tweetToMove = get().waitingList.find((t) => t.id === id)
+    if (!tweetToMove) return
 
-      updateTweet: (updatedTweet, inDashboard) =>
-        set((state) => {
-          if (inDashboard) {
-            return {
-              dashboard: state.dashboard.map((tweet) => (tweet.id === updatedTweet.id ? updatedTweet : tweet)),
-            }
-          } else {
-            return {
-              waitingList: state.waitingList.map((tweet) => (tweet.id === updatedTweet.id ? updatedTweet : tweet)),
-            }
-          }
-        }),
+    const updated = { ...tweetToMove, upvotes: 10 } // or any logic you use
 
-      removeTweet: (id, inDashboard) =>
-        set((state) => {
-          if (inDashboard) {
-            return {
-              dashboard: state.dashboard.filter((tweet) => tweet.id !== id),
-            }
-          } else {
-            return {
-              waitingList: state.waitingList.filter((tweet) => tweet.id !== id),
-            }
-          }
-        }),
-    }),
-    {
-      name: "tweet-storage",
-    },
-  ),
-)
+    const res = await fetch(`http://localhost:5000/tweets/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    })
+
+    const newTweet = await res.json()
+
+    set((state) => ({
+      waitingList: state.waitingList.filter((tweet) => tweet.id !== id),
+      dashboard: [newTweet, ...state.dashboard],
+    }))
+  },
+
+  updateTweet: async (updatedTweet, inDashboard) => {
+    const res = await fetch(`http://localhost:5000/tweets/${updatedTweet.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTweet),
+    })
+    const newTweet = await res.json()
+
+    set((state) => {
+      const listKey = inDashboard ? "dashboard" : "waitingList"
+      return {
+        [listKey]: state[listKey].map((tweet) =>
+          tweet.id === newTweet.id ? newTweet : tweet,
+        ),
+      }
+    })
+  },
+
+  removeTweet: async (id, inDashboard) => {
+    await fetch(`http://localhost:5000/tweets/${id}`, {
+      method: "DELETE",
+    })
+
+    set((state) => {
+      const listKey = inDashboard ? "dashboard" : "waitingList"
+      return {
+        [listKey]: state[listKey].filter((tweet) => tweet.id !== id),
+      }
+    })
+  },
+}))

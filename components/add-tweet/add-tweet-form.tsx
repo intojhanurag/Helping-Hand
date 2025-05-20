@@ -68,6 +68,7 @@ export function AddTweetForm() {
 
     // Add the tweet to the store
     addTweet(newTweet)
+    
 
     // Show success toast
     toast({
@@ -76,7 +77,9 @@ export function AddTweetForm() {
     })
 
     setIsSubmitting(false)
-    router.push("/waiting-list")
+    
+      router.push("/waiting-list");
+   
   }
 
   return (

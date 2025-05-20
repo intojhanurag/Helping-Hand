@@ -4,6 +4,8 @@
  * @returns The Twitter username or null if not found
  */
 export function extractTwitterUsername(url: string): string | null {
+  if(!url)
+    return null
   try {
     // Handle both twitter.com and x.com URLs
     const regex = /(?:twitter\.com|x\.com)\/([^/]+)/i
@@ -26,6 +28,8 @@ export function extractTwitterUsername(url: string): string | null {
  * @returns The tweet ID or null if not found
  */
 export function extractTweetId(url: string): string | null {
+  if(!url)
+    return null
   try {
     // Handle both twitter.com and x.com URLs
     const regex = /(?:twitter\.com|x\.com)\/[^/]+\/status\/(\d+)/i

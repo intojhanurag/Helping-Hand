@@ -95,6 +95,7 @@ export function TweetCard({ tweet, isWaitingList }: TweetCardProps) {
   }
 
   // Format the date
+  console.log(tweet.createdAt)
   const formattedDate = new Date(tweet.timestamp).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -182,10 +183,11 @@ export function TweetCard({ tweet, isWaitingList }: TweetCardProps) {
           )}
 
           <Button variant="ghost" size="sm" asChild className="text-white hover:bg-white/10">
-            <Link href={tweet.url} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="mr-1 h-4 w-4" />
-              
-            </Link>
+            {tweet.url ? (
+                <Link href={tweet.url}>...</Link>
+              ) : (
+                <span>No link available</span>
+              )}
           </Button>
         </div>
       </CardFooter>
