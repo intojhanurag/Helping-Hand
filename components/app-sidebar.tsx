@@ -33,12 +33,12 @@ import {
 } from "@/components/ui/sidebar"
 
 const categories = [
-  { name: "Web Dev", icon: Code },
+  { name: "Cracked Dev", icon: Code },
   { name: "Web3", icon: Blocks },
   { name: "DevOps", icon: Server },
   { name: "DSA", icon: BrainCircuit },
   { name: "AIML", icon: Sparkles },
-  { name: "UPSC", icon: BookOpen },
+  { name: "Open Source", icon: BookOpen },
   { name: "Couple", icon: Heart },
   { name: "Bakchodi", icon: Coffee },
 ]

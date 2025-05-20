@@ -7,7 +7,7 @@ export const mockTweets: Tweet[] = [
     content:
       "Just launched a new tutorial on React Server Components. Check it out to learn how to build faster, more efficient web applications!",
     url: "https://twitter.com/webdevmaster/status/123456789",
-    category: "Web Dev",
+    category: "Cracked Dev",
     upvotes: 8,
     timestamp: "2025-05-15T10:30:00Z",
   },
@@ -57,7 +57,7 @@ export const mockTweets: Tweet[] = [
     content:
       "Here's my proven 6-month strategy for UPSC preparation. Includes daily schedule, resource recommendations, and test-taking strategies.",
     url: "https://twitter.com/upscmentor/status/123456794",
-    category: "UPSC",
+    category: "Open Source",
     upvotes: 18,
     timestamp: "2025-05-10T08:20:00Z",
   },
@@ -87,7 +87,7 @@ export const mockTweets: Tweet[] = [
     content:
       "I just built my first responsive website using Tailwind CSS! Here's what I learned and the resources that helped me the most.",
     url: "https://twitter.com/webdevnewbie/status/123456797",
-    category: "Web Dev",
+    category: "Cracked Dev",
     upvotes: 5,
     timestamp: "2025-05-07T15:25:00Z",
   },

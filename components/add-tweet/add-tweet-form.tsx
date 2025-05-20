@@ -15,7 +15,7 @@ import { useTweetStore } from "@/lib/tweet-store"
 import { v4 as uuidv4 } from "uuid"
 import { extractTwitterUsername } from "@/lib/twitter-utils"
 
-const categories = ["Web Dev", "Web3", "DevOps", "DSA", "AIML", "UPSC", "Couple", "Bakchodi"]
+const categories = ["Cracked Dev", "Web3", "DevOps", "DSA", "AIML", "Open Source", "Couple", "Bakchodi"]
 
 const formSchema = z.object({
   tweetUrl: z

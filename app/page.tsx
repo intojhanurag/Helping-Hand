@@ -53,12 +53,12 @@ export default function Home() {
           </div>
           <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 py-12 md:grid-cols-4">
             {[
-              { name: "Web Dev", icon: "💻" },
+              { name: "Cracked Dev", icon: "💻" },
               { name: "Web3", icon: "🔗" },
               { name: "DevOps", icon: "🚀" },
               { name: "DSA", icon: "🧮" },
               { name: "AIML", icon: "🤖" },
-              { name: "UPSC", icon: "📚" },
+              { name: "Open Source", icon: "📚" },
               { name: "Couple", icon: "❤️" },
               { name: "Bakchodi", icon: "😂" },
             ].map((category) => (

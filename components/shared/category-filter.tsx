@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils"
 
 const categories = [
   { name: "All Categories", icon: "🔍" },
-  { name: "Web Dev", icon: "💻" },
+  { name: "Cracked Dev", icon: "💻" },
   { name: "Web3", icon: "🔗" },
   { name: "DevOps", icon: "🚀" },
   { name: "DSA", icon: "🧮" },
   { name: "AIML", icon: "🤖" },
-  { name: "UPSC", icon: "📚" },
+  { name: "Open Source", icon: "📚" },
   { name: "Couple", icon: "❤️" },
   { name: "Bakchodi", icon: "😂" },
 ]
