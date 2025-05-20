@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
 import Script from "next/script"
 import { Header } from "@/components/header"
@@ -32,6 +33,7 @@ export default function RootLayout({
             </div>
             <Toaster />
           </AdminProvider>
+          <Analytics/>
         </ThemeProvider>
 
         {/* Twitter widgets script */}
