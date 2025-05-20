@@ -5,6 +5,8 @@
 
 # next.js
 /.next/
+/backend/node_modules
+/backend/.env
 /out/
 
 # production
