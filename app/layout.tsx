@@ -25,6 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+    <head>
+      <link rel="icon" href="/logo.jpg" />
+
+    </head>
       <body className={`${inter.className} bg-[#0e0a1a]`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <AdminProvider>

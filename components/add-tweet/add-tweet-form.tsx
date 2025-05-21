@@ -35,6 +35,8 @@ export function AddTweetForm() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [previewUrl, setPreviewUrl] = useState("")
+  const waitingList=useTweetStore((state)=>state.waitingList)
+  const dashboard=useTweetStore((state)=>state.dashboard)
   const addTweet = useTweetStore((state) => state.addTweet)
 
   const form = useForm<FormValues>({
@@ -52,9 +54,27 @@ export function AddTweetForm() {
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true)
 
+
     // Extract username from the tweet URL
     const username = extractTwitterUsername(values.tweetUrl) || "unknown_user"
+    const isDuplicate=[...waitingList,...dashboard].some(
+      (tweet) =>
+      tweet.author.toLowerCase() === username.toLowerCase() &&
+      tweet.category.toLowerCase() === values.category.toLowerCase()
+      
+    )
 
+    if(isDuplicate){
+      toast({
+      title: "Duplicate Tweet Detected",
+      description: "A tweet with the same author and category already exists in the system.",
+      variant: "destructive",
+    });
+
+    setIsSubmitting(false);
+    return;
+
+    }
     // Create a new tweet object
     const newTweet = {
       id: uuidv4(),
