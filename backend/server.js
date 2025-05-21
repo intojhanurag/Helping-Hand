@@ -4,7 +4,6 @@ import dotenv from "dotenv"
 import cors from "cors"
 
 import Tweet from "./models/tweet.js"
-import { Moon } from "lucide-react"
 
 dotenv.config()
 const app=express()
