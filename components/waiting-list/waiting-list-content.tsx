@@ -16,7 +16,14 @@ export function WaitingListContent() {
 }, [])
  const waitingList = useTweetStore((state) => state.waitingList)
   const filteredTweets = waitingList
-    .filter((tweet) => !categoryParam || tweet.category.toLowerCase() === categoryParam.toLowerCase())
+    .filter(
+      (tweet) => {
+        const normalizedCategory = tweet.category.toLowerCase().replace(/\s+/g, "-")
+        return !categoryParam || normalizedCategory === categoryParam.toLowerCase()
+
+      }
+      // !categoryParam || tweet.category.toLowerCase() === categoryParam.toLowerCase()
+    )
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 
   const container = {

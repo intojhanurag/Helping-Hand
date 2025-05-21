@@ -9,7 +9,8 @@ export function WaitingListHeader() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-white">Waiting List</h1>
-          <p className="text-white/70">Tweets waiting for admin approval</p>
+          <p className="text-white/70">Tweets waiting for audience approval, Add your own favourite 
+          creator.</p>
         </div>
         <Button asChild className="gap-2 bg-[#9147ff] hover:bg-[#7a2df0] text-white mt-4 md:mt-0">
           <Link href="/add-tweet">

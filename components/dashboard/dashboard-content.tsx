@@ -16,8 +16,10 @@ export function DashboardContent() {
 
   // Filter tweets by category
   const filteredTweets = dashboard
-    .filter((tweet) => !categoryParam || tweet.category.toLowerCase() === categoryParam.toLowerCase())
-    .sort((a, b) => b.upvotes - a.upvotes)
+    .filter((tweet) =>{
+      const normalizedCategory = tweet.category.toLowerCase().replace(/\s+/g, "-")
+      return !categoryParam || normalizedCategory === categoryParam.toLowerCase()
+    }).sort((a, b) => b.upvotes - a.upvotes)
 
   const container = {
     hidden: { opacity: 0 },
