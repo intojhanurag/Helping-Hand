@@ -17,8 +17,8 @@ export const useTweetStore = create<TweetState>((set, get) => ({
 
   fetchTweets: async () => {
     const [waitingRes, dashboardRes] = await Promise.all([
-      fetch("http://localhost:5000/tweets/waiting"),
-      fetch("http://localhost:5000/tweets/dashboard"),
+      fetch("https://helping-hand-2.onrender.com/tweets/waiting"),
+      fetch("https://helping-hand-2.onrender.com/tweets/dashboard"),
     ])
     const waitingList = await waitingRes.json()
     const dashboard = await dashboardRes.json()
@@ -26,7 +26,7 @@ export const useTweetStore = create<TweetState>((set, get) => ({
   },
 
   addTweet: async (tweet) => {
-    const res = await fetch("http://localhost:5000/tweets", {
+    const res = await fetch("https://helping-hand-2.onrender.com/tweets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(tweet),
@@ -43,7 +43,7 @@ export const useTweetStore = create<TweetState>((set, get) => ({
 
     const updated = { ...tweetToMove, upvotes: 10 } // or any logic you use
 
-    const res = await fetch(`http://localhost:5000/tweets/${id}`, {
+    const res = await fetch(`https://helping-hand-2.onrender.com/tweets/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated),
@@ -58,7 +58,7 @@ export const useTweetStore = create<TweetState>((set, get) => ({
   },
 
   updateTweet: async (updatedTweet, inDashboard) => {
-    const res = await fetch(`http://localhost:5000/tweets/${updatedTweet.id}`, {
+    const res = await fetch(`https://helping-hand-2.onrender.com/tweets/${updatedTweet.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedTweet),
@@ -76,7 +76,7 @@ export const useTweetStore = create<TweetState>((set, get) => ({
   },
 
   removeTweet: async (id, inDashboard) => {
-    await fetch(`http://localhost:5000/tweets/${id}`, {
+    await fetch(`https://helping-hand-2.onrender.com/tweets/${id}`, {
       method: "DELETE",
     })
 
