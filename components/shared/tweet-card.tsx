@@ -184,7 +184,7 @@ export function TweetCard({ tweet, isWaitingList }: TweetCardProps) {
 
           <Button variant="ghost" size="sm" asChild className="text-white hover:bg-white/10">
             {tweet.url ? (
-                <Link href={tweet.url}>...</Link>
+                <Link href={tweet.url}><ExternalLink/></Link>
               ) : (
                 <span>No link available</span>
               )}
