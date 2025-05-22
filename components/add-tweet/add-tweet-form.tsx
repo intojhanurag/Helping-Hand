@@ -65,11 +65,12 @@ export function AddTweetForm() {
     )
 
     if(isDuplicate){
-      toast({
-      title: "Duplicate Tweet Detected",
-      description: "A tweet with the same author and category already exists in the system.",
-      variant: "destructive",
-    });
+        toast({
+        title: "Duplicate Tweet Detected",
+        description: "A tweet with the same author and category already exists in the system.",
+        variant: "destructive",
+      });
+    
 
     setIsSubmitting(false);
     return;
@@ -85,6 +86,16 @@ export function AddTweetForm() {
       upvotes: 0,
       timestamp: new Date().toISOString(),
     }
+
+    if (!categories.includes(newTweet.category)) {
+      toast({
+        title: "Invalid Category",
+        description: "Selected category is not allowed.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+  }
 
     // Add the tweet to the store
     addTweet(newTweet)
