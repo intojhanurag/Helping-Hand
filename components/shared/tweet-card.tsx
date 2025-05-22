@@ -54,7 +54,7 @@ export function TweetCard({ tweet, isWaitingList }: TweetCardProps) {
   });
 
   // ✅ Send only the action to the backend
-  const res=await fetch(`http://localhost:5000/tweets/${tweet.id}/upvote`, {
+  const res=await fetch(`https://helping-hand-2.onrender.com/${tweet.id}/upvote`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
