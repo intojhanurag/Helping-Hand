@@ -37,7 +37,7 @@ app.post("/tweets/:id/upvote", async (req, res) => {
     const tweet = await Tweet.findOne({ id });
     if (!tweet) {
       console.error("Tweet not found:", id);
-      return res.status(404).json({ error: "Tweet not found" });
+      res.status(404).json({ error: "Tweet not found" });
     }
 
     if (action === "add") {
@@ -46,7 +46,7 @@ app.post("/tweets/:id/upvote", async (req, res) => {
       tweet.upvotes = Math.max(tweet.upvotes - 1, 0);
     } else {
       console.error("Invalid action:", action);
-      return res.status(400).json({ error: "Invalid action" });
+      res.status(400).json({ error: "Invalid action" });
     }
 
     await tweet.save();
