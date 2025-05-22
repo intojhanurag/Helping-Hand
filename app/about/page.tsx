@@ -35,7 +35,9 @@ export default function AboutPage() {
               <div className="text-3xl font-bold text-[#9147ff] mb-4">02</div>
               <h3 className="text-xl font-bold mb-2">Review Process</h3>
               <p className="text-white/70">
-                Submitted content goes to the waiting list, where it's reviewed by our administrators.
+                Submitted content goes to the waiting list, where it's reviewed by our administrators
+                Or if the admin will not review, then after 10 like it will automatic move to dashboard 
+                section.
               </p>
             </div>
             <div className="rounded-lg border border-white/10 bg-[#1a1425] p-6 shadow-sm">

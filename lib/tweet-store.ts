@@ -75,6 +75,8 @@ export const useTweetStore = create<TweetState>((set, get) => ({
     })
   },
 
+  
+
   removeTweet: async (id, inDashboard) => {
     await fetch(`https://helping-hand-2.onrender.com/tweets/${id}`, {
       method: "DELETE",

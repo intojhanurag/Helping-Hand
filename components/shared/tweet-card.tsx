@@ -37,46 +37,41 @@ export function TweetCard({ tweet, isWaitingList }: TweetCardProps) {
     setHasUpvoted(likedTweets.includes(tweet.id))
   }, [tweet.id])
 
-  const handleUpvote = () => {
-    // Get current liked tweets from local storage
-    const likedTweets = JSON.parse(localStorage.getItem("likedTweets") || "[]")
+ const handleUpvote = async () => {
+  const likedTweets = JSON.parse(localStorage.getItem("likedTweets") || "[]");
+  const action = hasUpvoted ? "remove" : "add";
 
-    if (hasUpvoted) {
-      // Remove from liked tweets
-      const updatedLikedTweets = likedTweets.filter((id: string) => id !== tweet.id)
-      localStorage.setItem("likedTweets", JSON.stringify(updatedLikedTweets))
+  // Update local state optimistically
+  const updatedLikedTweets = hasUpvoted
+    ? likedTweets.filter((id: string) => id !== tweet.id)
+    : [...likedTweets, tweet.id];
 
-      updateTweet(
-        {
-          ...tweet,
-          upvotes: tweet.upvotes - 1,
-        },
-        !isWaitingList,
-      )
-      setHasUpvoted(false)
-      toast({
-        description: "Upvote removed",
-      })
-    } else {
-      // Add to liked tweets
-      likedTweets.push(tweet.id)
-      localStorage.setItem("likedTweets", JSON.stringify(likedTweets))
+  localStorage.setItem("likedTweets", JSON.stringify(updatedLikedTweets));
+  setHasUpvoted(!hasUpvoted);
 
-      const newUpvotes = tweet.upvotes + 1
-      updateTweet(
-        {
-          ...tweet,
-          upvotes: newUpvotes,
-        },
-        !isWaitingList,
-      )
-      setHasUpvoted(true)
+  toast({
+    description: hasUpvoted ? "Upvote removed" : "Tweet upvoted",
+  });
 
-      toast({
-        description: "Tweet upvoted",
-      })
-    }
+  // ✅ Send only the action to the backend
+  const res=await fetch(`http://localhost:5000/tweets/${tweet.id}/upvote`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ action }),
+  });
+
+  if(res.ok){
+    updateTweet(
+    {
+      ...tweet,
+      upvotes: hasUpvoted ? tweet.upvotes - 1 : tweet.upvotes + 1,
+    },
+    !isWaitingList
+  );
   }
+};
 
   const handleMove = () => {
     moveToDashboard(tweet.id)
@@ -95,7 +90,7 @@ export function TweetCard({ tweet, isWaitingList }: TweetCardProps) {
   }
 
   // Format the date
-  console.log(tweet.createdAt)
+  
   const formattedDate = new Date(tweet.timestamp).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",

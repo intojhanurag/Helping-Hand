@@ -25,6 +25,42 @@ app.post("/tweets",async(req,res)=>{
     }
 })
 
+
+app.post("/tweets/:id/upvote", async (req, res) => {
+  try {
+    const { action } = req.body;
+    const { id } = req.params;
+
+    console.log("Received upvote request:", id, action);
+
+    // const tweet = await Tweet.findById(id);
+    const tweet = await Tweet.findOne({ id });
+    if (!tweet) {
+      console.error("Tweet not found:", id);
+      return res.status(404).json({ error: "Tweet not found" });
+    }
+
+    if (action === "add") {
+      tweet.upvotes += 1;
+    } else if (action === "remove") {
+      tweet.upvotes = Math.max(tweet.upvotes - 1, 0);
+    } else {
+      console.error("Invalid action:", action);
+      return res.status(400).json({ error: "Invalid action" });
+    }
+
+    await tweet.save();
+
+    console.log("Tweet updated successfully:", tweet.upvotes);
+    res.json({ success: true, upvotes: tweet.upvotes });
+  } catch (error) {
+    console.error("Error updating tweet:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+
 app.get("/tweets/waiting",async(req,res)=>{
     const tweets=await Tweet.find({upvotes:{$lt:10}})
     res.json(tweets)
